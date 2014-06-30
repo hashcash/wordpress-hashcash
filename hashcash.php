@@ -11,10 +11,10 @@ defined('ABSPATH') or die("No script kiddies please!");
 
 function _add_js_css() {
     wp_enqueue_script( 'jquery');
-    wp_enqueue_script( 'hashcode', plugins_url( 'jquery.hashcash.io/jquery.hashcash.io.min.js', __FILE__ ), 'jquery', '1.0', true );
+    wp_enqueue_script( 'hashcode', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.1/jquery.hashcash.io.min.js', 'jquery', '1.0', true );
     wp_enqueue_script( 'wphashcode', plugins_url( 'hashcash.js', __FILE__ ), 'jquery', '1.0', true );
 
-    wp_enqueue_style( 'hashcodecss', plugins_url('jquery.hashcash.io/jquery.hashcash.io.min.css', __FILE__ ), array() );
+    wp_enqueue_style( 'hashcodecss', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.1/jquery.hashcash.io.min.css', array() );
     wp_enqueue_style( 'wphashcodecss', plugins_url('wp-local.css', __FILE__ ), array() );
 
     $settings = array(
