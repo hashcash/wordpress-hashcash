@@ -1,0 +1,28 @@
+#loginform p.submit,
+#registerform p.submit,
+#lostpasswordform p.submit {
+    text-align: right;
+}
+
+#loginform .hashcash-onoffswitch,
+#registerform .hashcash-onoffswitch,
+#lostpasswordform .hashcash-onoffswitch {
+    top: 2px;
+}
+
+.comment-form input[type=submit] {
+    vertical-align: middle;
+}
+
+.hashcash-onoffswitch-checkbox {
+    display: none !important;
+}
+
+.hashcash-disabled {
+    opacity: 0.1;
+}
+
+.hashcash-onoffswitch {
+    margin-right: 1em;
+    text-align: left;
+}
