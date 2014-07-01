@@ -4,7 +4,7 @@
     Plugin URI: http://wordpress.org/plugins/hashcash/
     Description: Hashcash.IO Integration
     Author: Pavel A. Karoukin
-    Version: 1.0
+    Version: 1.0.1
 */
 
 defined('ABSPATH') or die("No script kiddies please!");

@@ -3,17 +3,19 @@ Contributors: pkaroukin
 Tags: hashcash, spam, security
 Requires at least: 3.0.0
 Tested up to: 3.9.1
-Stable tag: trunk
+Stable tag: 1.0.1
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-Integrates Hashcash.IO proof-of-work widget with login/registration/comment forms. It leverage jquery.hashcash.io plugin in order to add neat \"unlock\" button on these forms.
+Integrates Hashcash.IO proof-of-work widget with login/registration/comment forms.
 
 == Description ==
 
+This plugin will integrate jQuery plugin Hashcash.IO (https://github.com/hashcash/jquery.hashcash.io) to be used in combination with https://hashcash.io/ service.
+
 ### Protect Against Web Spam
 
-Typically various \"Internet SEO Companies\" try to leverage poor forum software protection against mass submission and create many worthless posts with links to a website they are promoting.
+Typically various "Internet SEO Companies" try to leverage poor forum software protection against mass submission and create many worthless posts with links to a website they are promoting.
 
 Some forum and blog software implement various CAPTCHA solutions but these have two negative aspects:
 
