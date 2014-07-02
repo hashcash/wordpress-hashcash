@@ -3,7 +3,7 @@ Contributors: pkaroukin
 Tags: hashcash, spam, security
 Requires at least: 3.0.0
 Tested up to: 3.9.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -12,6 +12,8 @@ Integrates Hashcash.IO proof-of-work widget with login/registration/comment form
 == Description ==
 
 This plugin will integrate jQuery plugin Hashcash.IO (https://github.com/hashcash/jquery.hashcash.io) to be used in combination with https://hashcash.io/ service.
+
+Main development happens in https://github.com/hashcash/wordpress-hashcash . Please use it to contribute and file tickets with issues or feature requests.
 
 ### Protect Against Web Spam
 
