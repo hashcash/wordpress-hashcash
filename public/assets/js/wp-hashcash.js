@@ -1,7 +1,7 @@
 /* global HashcashSettings, jQuery */
 (function($) {
     // If plugin is not configured yet - exit
-    if (!HashcashSettings || !HashcashSettings.key) {
+    if ( ! HashcashSettings || ! HashcashSettings.key ) {
         return;
     }
 
@@ -18,4 +18,6 @@
         complexity: HashcashSettings.complexity,
         lang: HashcashSettings.lang
     });
+
+
 })(jQuery);

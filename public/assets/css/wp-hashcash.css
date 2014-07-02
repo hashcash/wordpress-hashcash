@@ -1,13 +1,15 @@
-#loginform p.submit,
+#login form p.submit,
 #registerform p.submit,
 #lostpasswordform p.submit {
+    clear: both;
+    padding-top: 5px;
     text-align: right;
 }
 
 #loginform .hashcash-onoffswitch,
 #registerform .hashcash-onoffswitch,
 #lostpasswordform .hashcash-onoffswitch {
-    top: 2px;
+    margin-top: 2px;
 }
 
 .comment-form input[type=submit] {
