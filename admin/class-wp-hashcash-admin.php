@@ -86,9 +86,13 @@ class WP_Hashcash_Admin {
      * Setup options/settings page, using the WordPress settings API
      */
     public function settings_api() {
+    	
+    	/**
+    	 * Default Hashcash settings
+    	 */
     	add_settings_section(
 	        'hashcash-settings-section',
-	        '',
+	        __( 'Hashcash.io general settings', $this->plugin_slug ),
 	        array( $this, 'setting_section_callback_function' ),
 	        'hashcash-setting'
 	    );
@@ -101,8 +105,6 @@ class WP_Hashcash_Admin {
 	        'hashcash-settings-section'
 	    );
 
-	    register_setting( 'hashcash-setting', 'hashcash_public_key', array( $this, 'validate_public_key' ) );
-
 	    add_settings_field(
 	        'hashcash_private_key',
 	        __('Private key','hashcash'),
@@ -110,8 +112,6 @@ class WP_Hashcash_Admin {
 	        'hashcash-setting',
 	        'hashcash-settings-section'
 	    );
-
-	    register_setting( 'hashcash-setting', 'hashcash_private_key', array( $this, 'validate_private_key' ) );
 
 	    add_settings_field(
 	        'hashcash_complexity',
@@ -121,7 +121,164 @@ class WP_Hashcash_Admin {
 	        'hashcash-settings-section'
 	    );
 
+	    register_setting( 'hashcash-setting', 'hashcash_public_key', array( $this, 'validate_public_key' ) );
+	    register_setting( 'hashcash-setting', 'hashcash_private_key', array( $this, 'validate_private_key' ) );
 	    register_setting( 'hashcash-setting', 'hashcash_complexity', array( $this, 'validate_complexity' ) );
+
+	    /**
+    	 * Hashcash Translations
+    	 */
+    	$option_name   = 'hashcash_translations';
+    	$data          = get_option( $option_name );
+
+    	register_setting( 
+    		'hashcash-setting', 
+    		$option_name
+    	);
+
+    	add_settings_section(
+	        'hashcash-translation-section',
+	        __( 'Manage notices', $this->plugin_slug ),
+	        array( $this, 'render_translation_intro' ),
+	        'hashcash-setting'
+	    );
+
+	    add_settings_field(
+	        'screenreader_notice',
+	        __('Screenreader notice', $this->plugin_slug ),
+	        array( $this, 'render_textfield' ),
+	        'hashcash-setting',
+	        'hashcash-translation-section',
+	        array (
+	        	'option_name'     => $option_name,
+	        	'name'            => 'screenreader_notice',
+	        	'value'           => esc_attr( $data['screenreader_notice'] ),
+	        	'default'         => 'Click this to unlock submit button.'
+	        )
+	    );
+
+	    add_settings_field(
+	        'screenreader_notice_done',
+	        __('Screenreader notice done', $this->plugin_slug ),
+	        array( $this, 'render_textfield' ),
+	        'hashcash-setting',
+	        'hashcash-translation-section',
+	        array (
+	        	'option_name'     => $option_name,
+	        	'name'            => 'screenreader_notice_done',
+	        	'value'           => esc_attr( $data['screenreader_notice_done'] ),
+	        	'default'         => 'Form unlocked. Please submit this form.'
+	        )
+	    );
+
+	    add_settings_field(
+	        'screenreader_computing',
+	        __('Screenreader computing','hashcash'),
+	        array( $this, 'render_textfield' ),
+	        'hashcash-setting',
+	        'hashcash-translation-section',
+	        array (
+	        	'option_name'     => $option_name,
+	        	'name'            => 'screenreader_computing',
+	        	'value'           => esc_attr( $data['screenreader_computing'] ),
+	        	'default'         => 'Please wait while computing.'
+	        )
+	    );
+
+	    add_settings_field(
+	        'screenreader_computed',
+	        __('Screenreader computed','hashcash'),
+	        array( $this, 'render_textfield' ),
+	        'hashcash-setting',
+	        'hashcash-translation-section',
+	        array (
+	        	'option_name'     => $option_name,
+	        	'name'            => 'screenreader_computed',
+	        	'value'           => esc_attr( $data['screenreader_computed'] ),
+	        	'default'         => 'Form is ready. Please submit this form.'
+	        )
+	    );
+
+	    add_settings_field(
+	        'screenreader_done',
+	        __('Screenreader done','hashcash'),
+	        array( $this, 'render_textfield' ),
+	        'hashcash-setting',
+	        'hashcash-translation-section',
+	        array (
+	        	'option_name'     => $option_name,
+	        	'name'            => 'screenreader_done',
+	        	'value'           => esc_attr( $data['screenreader_done'] ),
+	        	'default'         => 'done.',
+	        	'description'     => '<span><em> eg. 1-100% <code>done.</code></em></span>'
+	        )
+	    );
+
+	    add_settings_field(
+	        'popup_info',
+	        __('Popup info','hashcash'),
+	        array( $this, 'render_textfield' ),
+	        'hashcash-setting',
+	        'hashcash-translation-section',
+	        array (
+	        	'option_name'     => $option_name,
+	        	'name'            => 'popup_info',
+	        	'value'           => esc_attr( $data['popup_info'] ),
+	        	'default'         => 'Please unlock it first.'
+	        )
+	    );
+
+    }
+
+    /**
+     * Render tranlation section intro
+     * 
+     * @return
+     */
+    public function render_translation_intro() {
+    	return;
+    }
+
+    /**
+     * Render default textfield, using the Settings API
+     * 
+     * @param  array $args An array containing option_name, name, 
+     *                     value, default and optional description
+     * @return string      A html input type="text" element
+     */
+    public function render_textfield( $args ) {
+    	if ( empty( $args ) ) 
+    		return;
+
+    	$value = ( $args['value'] != '' ) ? $args['value'] : $args['default'];
+
+    	printf( '<input name="%1$s[%2$s]" id="%2$s" value="%3$s" placeholder="%4$s" class="regular-text" type="text">',
+    		$args['option_name'],
+    		$args['name'],
+    		$value,
+    		$args['default']
+    	);
+
+    	if ( isset( $args['description'] ) && '' !== $args['description'] ) {
+    		print $args['description'];
+    	}
+    }
+
+    public function render_checkbox( $args ) {
+    	if ( empty( $args ) ) 
+    		return;
+
+    	$value   = ( 'on' === $args['value'] ) ? ' checked="checked"' : '';
+
+    	printf( '<input name="%1$s[%2$s]" id="%2$s" %3$s type="checkbox">',
+    		$args['option_name'],
+    		$args['name'],
+    		$value
+    	);
+
+    	if ( isset( $args['description'] ) && '' !== $args['description'] ) {
+    		print $args['description'];
+    	}
     }
 
     /**
@@ -138,8 +295,8 @@ class WP_Hashcash_Admin {
 	 */
 	public function public_key_callback_function() {
 	    $h = get_option('hashcash_public_key');
-	    print '<input name="hashcash_public_key" id="hashcash_public_key" type="text" value="'.esc_attr($h).'" />';
-	    print '<p class="description">Public key look like fece3f6e-9966-49cc-9079-88723bcfe847</p>';
+	    print '<input class="regular-text" name="hashcash_public_key" id="hashcash_public_key" type="text" value="'.esc_attr($h).'" />';
+	    print '<p class="description">Public key looks like <code>fece3f6e-9966-49cc-9079-88723bcfe847</code></p>';
 	}
 
 	/**
@@ -147,8 +304,8 @@ class WP_Hashcash_Admin {
 	 */
 	public function private_key_callback_function() {
 	    $h = get_option('hashcash_private_key');
-	    print '<input name="hashcash_private_key" id="hashcash_private_key" type="text" value="'.esc_attr($h).'" />';
-	    print '<p class="description">Private key look like PRIVATE-ed0c6b0e-8788-4cee-8213-842fd90885c3</p>';
+	    print '<input class="regular-text" name="hashcash_private_key" id="hashcash_private_key" type="text" value="'.esc_attr($h).'" />';
+	    print '<p class="description">Private key looks like <code>PRIVATE-ed0c6b0e-8788-4cee-8213-842fd90885c3</code></p>';
 	}
 
 	/**
@@ -161,7 +318,7 @@ class WP_Hashcash_Admin {
 	        $h = 0.01;
 	    }
 
-	    print '<input name="hashcash_complexity" id="hashcash_complexity" type="text" value="'.esc_attr($h).'" />';
+	    print '<input class="small-text" name="hashcash_complexity" id="hashcash_complexity" type="number" min="0.01" step="0.01" value="'.esc_attr($h).'" />';
 	    print '<p class="description">You can adjust how much work browser need to do to unlock widget with complexity. Larger value - longer it takes to finish work. Good starting point is 0.01</p>';
 	}
 

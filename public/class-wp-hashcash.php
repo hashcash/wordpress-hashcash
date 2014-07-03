@@ -106,20 +106,11 @@ class WP_Hashcash {
         wp_enqueue_script( $this->plugin_slug, plugins_url( 'assets/js/wp-hashcash.js', __FILE__ ), array( 'hashcodejs' ), self::VERSION, true );
 
         // Localization script
-        $settings = array(
-	        'key'        => get_option('hashcash_public_key'),
-	        'complexity' => get_option('hashcash_complexity'),
-	        'lang' => array(
-	            'screenreader_notice'      => __('Click this to unlock submit button', $this->plugin_slug ),
-	            'screenreader_notice_done' => __('Form unlocked. Please submit this form.', $this->plugin_slug ),
-	            'screenreader_computing'   => __('Please wait while computing.', $this->plugin_slug ),
-	            'screenreader_computed'    => __('Form is ready. Please submit this form.', $this->plugin_slug ),
-	            'screenreader_done'        => __('__done__% done.', $this->plugin_slug ),
-	            'popup_info'               => __('Please unlock it first.', $this->plugin_slug ),
-	        ),
-	    );
-
-	    wp_localize_script( 'hashcodejs', 'HashcashSettings', $settings );
+        wp_localize_script( 'hashcodejs', 'HashcashSettings', array(
+	        'key'        => get_option( 'hashcash_public_key' ),
+	        'complexity' => get_option( 'hashcash_complexity' ),
+	        'lang'       => get_option( 'hashcash_translations' )
+	    ));
 
     }
 
