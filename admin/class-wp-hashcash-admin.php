@@ -209,8 +209,8 @@ class WP_Hashcash_Admin {
 	        	'option_name'     => $option_name,
 	        	'name'            => 'screenreader_done',
 	        	'value'           => esc_attr( $data['screenreader_done'] ),
-	        	'default'         => 'done.',
-	        	'description'     => '<span><em> eg. 1-100% <code>done.</code></em></span>'
+	        	'default'         => '__done__% done.',
+	        	'description'     => '<span>eg. <code>__done__% done.</code>. <strong>__done__</strong> will get replaced with an actual value.</span>'
 	        )
 	    );
 
