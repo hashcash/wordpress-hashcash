@@ -27,4 +27,7 @@
 
 	</form>
 
+	<form id="quickkey" action="#"></form>
+
 </div>
+<?php # vim: set noexpandtab: ?>

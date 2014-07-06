@@ -3,7 +3,7 @@ Contributors: pkaroukin
 Tags: hashcash, spam, security
 Requires at least: 3.0.0
 Tested up to: 3.9.1
-Stable tag: 1.0.1
+Stable tag: 1.0.3
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -67,10 +67,9 @@ which updates blind user via screen reader about progress.
 
 == Installation ==
 
-1. Obtain keys pair at https://hashcash.io/
-2. Download plugin folder into /wp-content/plugins/ on your server
-3. Activate the plugin through the 'Plugins' menu in WordPress
-4. On Hashcash plugin settings page set public and private keys obtained in first step
+1. Download plugin folder into /wp-content/plugins/ on your server
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. On Hashcash plugin settings page generate new keys and save settings
 
 == Screenshots ==
 

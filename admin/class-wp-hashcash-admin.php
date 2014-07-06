@@ -12,6 +12,13 @@
 class WP_Hashcash_Admin {
 
     /**
+     * Plugin version, used for cache-busting of style and script file references.
+     *
+     * @var     string
+     */
+    const VERSION = '1.1';
+
+    /**
      * Instance of this class.
      *
      * @var      object
@@ -79,6 +86,13 @@ class WP_Hashcash_Admin {
 	 * Render the settings page for this plugin.
 	 */
     public function display_plugin_admin_page() {
+		// CSS
+		wp_enqueue_style( 'hashcodecss', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.2/jquery.hashcash.io.min.css', array() );
+		wp_enqueue_style( $this->plugin_slug . '-admin', plugins_url( 'assets/css/wp-hashcash-admin.css', __FILE__ ), array( 'hashcodecss' ), self::VERSION );
+
+		// JS
+		wp_enqueue_script( 'hashcodejs', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.2/jquery.hashcash.io.min.js', 'jquery', '0.0.2', true );
+		wp_enqueue_script( $this->plugin_slug . '-admin', plugins_url( 'assets/js/wp-hashcash-admin.js', __FILE__ ), array( 'jquery', 'hashcodejs' ), self::VERSION, true );
     	include_once( 'views/admin.php' );
     }
 
@@ -367,3 +381,5 @@ class WP_Hashcash_Admin {
 	}
 
 }
+
+# vim: set noexpandtab:

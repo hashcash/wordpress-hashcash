@@ -1,0 +1,17 @@
+.form-table td .hashcash-quickkey {
+    margin: 1em 0 0;
+}
+
+.hashcash-onoffswitch-checkbox {
+    display: none !important;
+}
+
+.hashcash-onoffswitch {
+    margin-right: 1em;
+    text-align: left;
+}
+
+.hashcash-disabled {
+    opacity: 0.2;
+}
+

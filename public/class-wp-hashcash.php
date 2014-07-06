@@ -51,7 +51,7 @@ class WP_Hashcash {
         // Plugin filters
         add_filter( 'registration_errors',  array( $this, 'registration_errors_filter' ), 10, 3);
         add_filter( 'allow_password_reset', array( $this, 'password_reset_filter' ), 10, 2 );
-        add_filter( 'wp_authenticate_user', array( $this, 'autenticate_filter' ), 10, 2 );
+        add_filter( 'wp_authenticate_user', array( $this, 'authenticate_filter' ), 10, 2 );
         add_filter( 'pre_comment_approved', array( $this, 'approve_comment_filter' ), 10, 2);
     }
 
@@ -98,11 +98,11 @@ class WP_Hashcash {
     public function enqueue_scripts() {
 
         // CSS
-        wp_enqueue_style( 'hashcodecss', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.1/jquery.hashcash.io.min.css', array() );
+        wp_enqueue_style( 'hashcodecss', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.2/jquery.hashcash.io.min.css', array() );
         wp_enqueue_style( $this->plugin_slug, plugins_url( 'assets/css/wp-hashcash.css', __FILE__ ), array( 'hashcodecss' ), self::VERSION );
 
         // JS
-        wp_enqueue_script( 'hashcodejs', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.1/jquery.hashcash.io.min.js', 'jquery', '0.0.1', true );
+        wp_enqueue_script( 'hashcodejs', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.2/jquery.hashcash.io.min.js', 'jquery', '0.0.1', true );
         wp_enqueue_script( $this->plugin_slug, plugins_url( 'assets/js/wp-hashcash.js', __FILE__ ), array( 'jquery', 'hashcodejs' ), self::VERSION, true );
 
         // Localization script
