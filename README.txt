@@ -13,6 +13,18 @@ Integrates Hashcash.IO proof-of-work widget with login/registration/comment form
 
 This plugin will integrate jQuery plugin Hashcash.IO (https://github.com/hashcash/jquery.hashcash.io) to be used in combination with https://hashcash.io/ service.
 
+Active development happens in GitHub repository - https://github.com/hashcash/wordpress-hashcash
+
+Please report all issues at https://github.com/hashcash/wordpress-hashcash/issues
+
+Because of the way plugins work, problem might arrise from specific combination of WP version, plugins, themes.
+Therefore for the best result everytime you submit a bug report or just seeking an advice please include following:
+
+* Version of Wordpress you are using
+* Brand and version of Browser you are using to test it
+* List of third-party plugins and their versions activated on your website
+* What theme and version you are using
+
 ### Protect Against Web Spam
 
 Typically various "Internet SEO Companies" try to leverage poor forum software protection against mass submission and create many worthless posts with links to a website they are promoting.
