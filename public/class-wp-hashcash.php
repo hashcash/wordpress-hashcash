@@ -103,7 +103,7 @@ class WP_Hashcash {
 
         // JS
         wp_enqueue_script( 'hashcodejs', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.1/jquery.hashcash.io.min.js', 'jquery', '0.0.1', true );
-        wp_enqueue_script( $this->plugin_slug, plugins_url( 'assets/js/wp-hashcash.js', __FILE__ ), array( 'hashcodejs' ), self::VERSION, true );
+        wp_enqueue_script( $this->plugin_slug, plugins_url( 'assets/js/wp-hashcash.js', __FILE__ ), array( 'jquery', 'hashcodejs' ), self::VERSION, true );
 
         // Localization script
         wp_localize_script( 'hashcodejs', 'HashcashSettings', array(
