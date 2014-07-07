@@ -16,6 +16,10 @@
     vertical-align: middle;
 }
 
+#commentform .hashcash-onoffswitch .hashcash-onoffswitch-label {
+    padding: 0;
+}
+
 .hashcash-onoffswitch-checkbox {
     display: none !important;
 }
