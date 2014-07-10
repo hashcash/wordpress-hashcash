@@ -51,7 +51,7 @@ class WP_Hashcash {
         // Plugin filters
         add_filter( 'registration_errors',  array( $this, 'registration_errors_filter' ), 10, 3);
         add_filter( 'allow_password_reset', array( $this, 'password_reset_filter' ), 10, 2 );
-        add_filter( 'wp_authenticate_user', array( $this, 'authenticate_filter' ), 10, 2 );
+        add_filter( 'wp_authenticate',      array( $this, 'authenticate_filter' ), 0 );
         add_filter( 'pre_comment_approved', array( $this, 'approve_comment_filter' ), 10, 2);
     }
 
@@ -127,7 +127,7 @@ class WP_Hashcash {
 	    if ( ! empty( $_POST ) ) {
 	        $ret = $this->verify_hash( $_POST['hashcashid'] );
 
-	        $error_message = __( "Submission failed. Please try again or contact the site administrator if this error persists.", $this->plugin_slug );
+	        $error_message = __( 'Submission failed. Make sure Javascript is turned on and try again. Contact the site administrator if this error persists.', $this->plugin_slug );
 
 	        if ($ret == 'no') {
 	            $errors->add('invalid', $error_message);
@@ -171,23 +171,16 @@ class WP_Hashcash {
 	 * @return object           This hook should return either a WP_User() object or, 
 	 *                          if generating an error, a WP_Error() object.
 	 */
-	function authenticate_filter( $user, $password ) {
-
+	function authenticate_filter() {
 	    if ( ! empty( $_POST ) ) {
 	        $ret = $this->verify_hash( $_POST['hashcashid'] );
 
-	        $error_message = __( 'Submission failed. Please try again or contact the site administrator if this error persists.', $this->plugin_slug );
+	        $error_message = __( 'Submission failed. Make sure Javascript is turned on and try again. Contact the site administrator if this error persists.', $this->plugin_slug );
 
-	        if ( $ret == 'no' ) {
-	            $user = new WP_Error( 'invalid', $error_message );
-	        }
-
-	        if ( $ret == 'fast' ) {
-	            $user = new WP_Error( 'toofast', $error_message );
+	        if ( $ret == 'no' || $ret == 'fast' ) {
+				die($error_message);
 	        }
 	    }
-
-	    return $user;
 	}
 
 	/**
