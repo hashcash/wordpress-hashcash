@@ -38,6 +38,8 @@ class WP_Hashcash {
      */
     private function __construct() {
 
+		define('HASHCASH_ERROR', __( 'Submission failed. Make sure Javascript is turned on and try again. Contact the site administrator if this error persists.', $this->plugin_slug ));
+
         // Load plugin text domain
         add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 
@@ -127,14 +129,12 @@ class WP_Hashcash {
 	    if ( ! empty( $_POST ) ) {
 	        $ret = $this->verify_hash( $_POST['hashcashid'] );
 
-	        $error_message = __( 'Submission failed. Make sure Javascript is turned on and try again. Contact the site administrator if this error persists.', $this->plugin_slug );
-
 	        if ($ret == 'no') {
-	            $errors->add('invalid', $error_message);
+	            $errors->add('invalid', HASHCASH_ERROR);
 	        }
 
 	        if ($ret == 'fast') {
-	            $errors->add('toofast', $error_message);
+	            $errors->add('toofast', HASHCASH_ERROR);
 	        }
 	    }
 
@@ -175,10 +175,8 @@ class WP_Hashcash {
 	    if ( ! empty( $_POST ) ) {
 	        $ret = $this->verify_hash( $_POST['hashcashid'] );
 
-	        $error_message = __( 'Submission failed. Make sure Javascript is turned on and try again. Contact the site administrator if this error persists.', $this->plugin_slug );
-
 	        if ( $ret == 'no' || $ret == 'fast' ) {
-				die($error_message);
+				die(HASHCASH_ERROR);
 	        }
 	    }
 	}
@@ -195,6 +193,10 @@ class WP_Hashcash {
 		// ignore trackbacks and pingbacks
 		if ( $comment['comment_type'] == '' ) {   
 	        $ret = $this->verify_hash( $_POST['hashcashid'] );
+
+			if ( $ret == 'no' || $ret == 'fast' ) {
+				die(HASHCASH_ERROR);
+	        }
 	        if ( $ret != 'ok' ) {
 	            $approved = 'spam';
 	        }
@@ -241,5 +243,6 @@ class WP_Hashcash {
 
 	    return 'ok';
 	}
-
 }
+
+// vim: ts=4:sw=4:noet
