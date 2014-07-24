@@ -3,7 +3,7 @@ Contributors: pkaroukin
 Tags: hashcash, spam, security
 Requires at least: 3.0.0
 Tested up to: 3.9.1
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 

@@ -36,3 +36,13 @@
 .hashcash-show-info .hascash-info {
 	text-align: center;
 }
+
+/* BuddyPress */
+#buddypress .standard-form .hashcash-onoffswitch-label {
+    margin: 0;
+}
+
+#buddypress .hashcash-disabled {
+    opacity: 0.3;
+}
+

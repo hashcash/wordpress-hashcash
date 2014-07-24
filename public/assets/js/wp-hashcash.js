@@ -10,7 +10,9 @@
         '#loginform [type="submit"]',
         '#lostpasswordform [type="submit"]',
         '#registerform [type="submit"]',
-        '.comment-form [type="submit"]'
+        '.comment-form [type="submit"]',
+        '#buddypress #signup_form #signup_submit',
+        '#commentform .input_submit'
     ];
 
     $( buttons.join(',') ).hashcash({

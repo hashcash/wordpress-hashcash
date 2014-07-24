@@ -16,7 +16,7 @@ class WP_Hashcash {
      *
      * @var     string
      */
-    const VERSION = '1.1';
+    const VERSION = '1.0.6';
 
     /**
      * Unique identifier.
@@ -55,6 +55,9 @@ class WP_Hashcash {
         add_filter( 'allow_password_reset', array( $this, 'password_reset_filter' ), 10, 2 );
         add_filter( 'wp_authenticate',      array( $this, 'authenticate_filter' ), 0 );
         add_filter( 'pre_comment_approved', array( $this, 'approve_comment_filter' ), 10, 2);
+
+		// BuddyPress support
+		add_action( 'bp_signup_validate', array( $this, 'authenticate_filter' ) );
     }
 
     /**
