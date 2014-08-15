@@ -12,7 +12,8 @@
         '#registerform [type="submit"]',
         '.comment-form [type="submit"]',
         '#buddypress #signup_form #signup_submit',
-        '#commentform .input_submit'
+        '#commentform .input_submit',
+        '#commentform #submit'
     ];
 
     $( buttons.join(',') ).hashcash({
