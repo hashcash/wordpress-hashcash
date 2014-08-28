@@ -13,7 +13,7 @@
  * Plugin URI: http://wordpress.org/plugins/hashcash/
  * Description: Hashcash.IO Integration
  * Author: Pavel A. Karoukin, haboes
- * Version: 1.0.7
+ * Version: 1.0.8
  * GitHub Plugin URI: https://github.com/hashcash/wordpress-hashcash/
 */
 

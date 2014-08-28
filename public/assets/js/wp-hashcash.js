@@ -13,7 +13,8 @@
         '.comment-form [type="submit"]',
         '#buddypress #signup_form #signup_submit',
         '#commentform .input_submit',
-        '#commentform #submit'
+        '#commentform #submit',
+        '.woocommerce form.login input[name=login]' // Woocommerce login button at /my-account
     ];
 
     $( buttons.join(',') ).hashcash({
