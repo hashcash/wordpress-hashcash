@@ -16,7 +16,7 @@ class WP_Hashcash {
      *
      * @var     string
      */
-    const VERSION = '1.0.6';
+    const VERSION = '2.0.0';
 
     /**
      * Unique identifier.
@@ -103,15 +103,15 @@ class WP_Hashcash {
     public function enqueue_scripts() {
 
         // CSS
-        wp_enqueue_style( 'hashcodecss', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.2/jquery.hashcash.io.min.css', array() );
-        wp_enqueue_style( $this->plugin_slug, plugins_url( 'assets/css/wp-hashcash.css', __FILE__ ), array( 'hashcodecss' ), self::VERSION );
+		wp_enqueue_style( 'hashcashcss', plugins_url( 'jquery.hashcash.io/jquery.hashcash.io.min.css', __FILE__ ), array(), self::VERSION );
+        wp_enqueue_style( $this->plugin_slug, plugins_url( 'assets/css/wp-hashcash.css', __FILE__ ), array( 'hashcashcss' ), self::VERSION );
 
         // JS
-        wp_enqueue_script( 'hashcodejs', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.2/jquery.hashcash.io.min.js', 'jquery', '0.0.1', true );
-        wp_enqueue_script( $this->plugin_slug, plugins_url( 'assets/js/wp-hashcash.js', __FILE__ ), array( 'jquery', 'hashcodejs' ), self::VERSION, true );
+		wp_enqueue_script( 'hashcashjs', plugins_url( 'jquery.hashcash.io/jquery.hashcash.io.min.js', __FILE__ ), array( 'jquery' ), self::VERSION, true );
+        wp_enqueue_script( $this->plugin_slug, plugins_url( 'assets/js/wp-hashcash.js', __FILE__ ), array( 'jquery', 'hashcashjs' ), self::VERSION, true );
 
         // Localization script
-        wp_localize_script( 'hashcodejs', 'HashcashSettings', array(
+        wp_localize_script( 'hashcashjs', 'HashcashSettings', array(
 	        'key'        => get_option( 'hashcash_public_key' ),
 	        'complexity' => get_option( 'hashcash_complexity' ),
 	        'lang'       => get_option( 'hashcash_translations' )
@@ -134,10 +134,6 @@ class WP_Hashcash {
 
 	        if ($ret == 'no') {
 	            $errors->add('invalid', HASHCASH_ERROR);
-	        }
-
-	        if ($ret == 'fast') {
-	            $errors->add('toofast', HASHCASH_ERROR);
 	        }
 	    }
 
@@ -178,7 +174,7 @@ class WP_Hashcash {
 	    if ( ! empty( $_POST ) ) {
 	        $ret = $this->verify_hash( $_POST['hashcashid'] );
 
-	        if ( $ret == 'no' || $ret == 'fast' ) {
+	        if ( $ret == 'no' ) {
 				die(HASHCASH_ERROR);
 	        }
 	    }
@@ -197,7 +193,7 @@ class WP_Hashcash {
 		if ( $comment['comment_type'] == '' ) {   
 	        $ret = $this->verify_hash( $_POST['hashcashid'] );
 
-			if ( $ret == 'no' || $ret == 'fast' ) {
+			if ( $ret == 'no' ) {
 				die(HASHCASH_ERROR);
 	        }
 	        if ( $ret != 'ok' ) {
@@ -214,11 +210,11 @@ class WP_Hashcash {
 	 * @param  string $hash The public hash key, provided by localization script
 	 * @return string       "ok"   : verified
 	 *                      "no"   : not verified
-	 *                      "fast" : too fast
 	 */
 	protected function verify_hash( $hash ) {
 	    // If this setting is not set, plugin is not configured. Disable verification.
 	    $key = get_option('hashcash_private_key');
+		$complexity = get_option('hashcash_complexity');
 
 	    if ( empty( $key ) ) {
 	        return 'ok';
@@ -230,19 +226,18 @@ class WP_Hashcash {
 
 	    $hash = preg_replace( '/[^\w-\d]/', '', $hash );
 
-	    $url = 'https://hashcash.io/api/checkwork/' . $hash . '?apikey=' . $key;
+		$url = 'https://hashcash.io/api/usework/' . $hash . '/' . $complexity . '?apikey=' . $key;
 
 	    $jsonWork = wp_remote_get( $url );
 
-	    $work = json_decode( wp_remote_retrieve_body( $jsonWork ) );
+	    $result = json_decode( wp_remote_retrieve_body( $jsonWork ) );
 
-	    if ( ! $work ) {
+	    if ( ! $result ) {
 	        return 'no';
-	    } else if ( ! $work->totalDone ) {
-	        return 'no';
-	    } else if ( $work->totalDone < get_option( 'hashcash_complexity' ) ) {
-	        return 'fast';
 	    }
+		else if ( $result->status != 'success' ) {
+			return 'no';
+		}
 
 	    return 'ok';
 	}

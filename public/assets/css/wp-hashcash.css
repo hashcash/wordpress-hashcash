@@ -6,43 +6,6 @@
     text-align: right;
 }
 
-#loginform .hashcash-onoffswitch,
-#registerform .hashcash-onoffswitch,
-#lostpasswordform .hashcash-onoffswitch {
-    margin-top: 2px;
-}
-
 .comment-form input[type=submit] {
     vertical-align: middle;
 }
-
-#commentform .hashcash-onoffswitch .hashcash-onoffswitch-label {
-    padding: 0;
-}
-
-.hashcash-onoffswitch-checkbox {
-    display: none !important;
-}
-
-.hashcash-disabled {
-    opacity: 0.1;
-}
-
-.hashcash-onoffswitch {
-    margin-right: 1em;
-    text-align: left;
-}
-
-.hashcash-show-info .hascash-info {
-	text-align: center;
-}
-
-/* BuddyPress */
-#buddypress .standard-form .hashcash-onoffswitch-label {
-    margin: 0;
-}
-
-#buddypress .hashcash-disabled {
-    opacity: 0.3;
-}
-

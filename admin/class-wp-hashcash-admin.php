@@ -87,12 +87,13 @@ class WP_Hashcash_Admin {
 	 */
     public function display_plugin_admin_page() {
 		// CSS
-		wp_enqueue_style( 'hashcodecss', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.2/jquery.hashcash.io.min.css', array() );
-		wp_enqueue_style( $this->plugin_slug . '-admin', plugins_url( 'assets/css/wp-hashcash-admin.css', __FILE__ ), array( 'hashcodecss' ), self::VERSION );
+		wp_enqueue_style( 'hashcashcss', plugins_url( '../public/jquery.hashcash.io/jquery.hashcash.io.min.css', __FILE__ ), array(), self::VERSION );
+		wp_enqueue_style( $this->plugin_slug . '-admin', plugins_url( 'assets/css/wp-hashcash-admin.css', __FILE__ ), array( 'hashcashcss' ), self::VERSION );
 
 		// JS
-		wp_enqueue_script( 'hashcodejs', '//cdnjs.cloudflare.com/ajax/libs/jquery.hashcash.io/0.0.2/jquery.hashcash.io.min.js', 'jquery', '0.0.2', true );
-		wp_enqueue_script( $this->plugin_slug . '-admin', plugins_url( 'assets/js/wp-hashcash-admin.js', __FILE__ ), array( 'jquery', 'hashcodejs' ), self::VERSION, true );
+		wp_enqueue_script( 'hashcashjs', plugins_url( '../public/jquery.hashcash.io/jquery.hashcash.io.min.js', __FILE__ ), array( 'jquery' ), self::VERSION, true );
+		wp_enqueue_script( $this->plugin_slug . '-admin', plugins_url( 'assets/js/wp-hashcash-admin.js', __FILE__ ), array( 'jquery', 'hashcashjs' ), self::VERSION, true );
+
     	include_once( 'views/admin.php' );
     }
 
@@ -158,87 +159,72 @@ class WP_Hashcash_Admin {
 	    );
 
 	    add_settings_field(
-	        'screenreader_notice',
-	        __('Screenreader notice', $this->plugin_slug ),
+	        'progress_time_left',
+	        __('Progress text (with time left)', $this->plugin_slug ),
 	        array( $this, 'render_textfield' ),
 	        'hashcash-setting',
 	        'hashcash-translation-section',
 	        array (
 	        	'option_name'     => $option_name,
-	        	'name'            => 'screenreader_notice',
-	        	'value'           => esc_attr( $data['screenreader_notice'] ),
-	        	'default'         => 'Click this to unlock submit button.'
+	        	'name'            => 'progress_time_left',
+	        	'value'           => esc_attr( $data['progress_time_left'] ),
+	        	'default'         => 'Please wait __timeLeft__ more seconds before submitting form.'
 	        )
 	    );
 
 	    add_settings_field(
-	        'screenreader_notice_done',
-	        __('Screenreader notice done', $this->plugin_slug ),
+	        'progress',
+	        __('Progress text', $this->plugin_slug ),
 	        array( $this, 'render_textfield' ),
 	        'hashcash-setting',
 	        'hashcash-translation-section',
 	        array (
 	        	'option_name'     => $option_name,
-	        	'name'            => 'screenreader_notice_done',
-	        	'value'           => esc_attr( $data['screenreader_notice_done'] ),
-	        	'default'         => 'Form unlocked. Please submit this form.'
+	        	'name'            => 'progress',
+	        	'value'           => esc_attr( $data['progress'] ),
+	        	'default'         => 'Please wait before submitting form.'
 	        )
 	    );
 
 	    add_settings_field(
-	        'screenreader_computing',
-	        __('Screenreader computing','hashcash'),
+	        'notSupportedBrowser',
+	        __('Not supported browser notice', $this->plugin_slug ),
 	        array( $this, 'render_textfield' ),
 	        'hashcash-setting',
 	        'hashcash-translation-section',
 	        array (
 	        	'option_name'     => $option_name,
-	        	'name'            => 'screenreader_computing',
-	        	'value'           => esc_attr( $data['screenreader_computing'] ),
-	        	'default'         => 'Please wait while computing.'
+	        	'name'            => 'notSupportedBrowser',
+	        	'value'           => esc_attr( $data['notSupportedBrowser'] ),
+	        	'default'         => 'Your browser is not supported. Please use latest version of Chrome, Firefox or Internet Explorer.'
 	        )
 	    );
 
 	    add_settings_field(
-	        'screenreader_computed',
-	        __('Screenreader computed','hashcash'),
+	        'runtimeError',
+	        __('Runtime error notice', $this->plugin_slug ),
 	        array( $this, 'render_textfield' ),
 	        'hashcash-setting',
 	        'hashcash-translation-section',
 	        array (
 	        	'option_name'     => $option_name,
-	        	'name'            => 'screenreader_computed',
-	        	'value'           => esc_attr( $data['screenreader_computed'] ),
-	        	'default'         => 'Form is ready. Please submit this form.'
+	        	'name'            => 'runtimeError',
+	        	'value'           => esc_attr( $data['runtimeError'] ),
+	        	'default'         => 'Runtime error. Please try to refresh page.'
 	        )
 	    );
 
 	    add_settings_field(
-	        'screenreader_done',
-	        __('Screenreader done','hashcash'),
+	        'formReady',
+	        __('Form is ready notice', $this->plugin_slug ),
 	        array( $this, 'render_textfield' ),
 	        'hashcash-setting',
 	        'hashcash-translation-section',
 	        array (
 	        	'option_name'     => $option_name,
-	        	'name'            => 'screenreader_done',
-	        	'value'           => esc_attr( $data['screenreader_done'] ),
-	        	'default'         => '__done__% done.',
-	        	'description'     => '<span>eg. <code>__done__% done.</code>. <strong>__done__</strong> will get replaced with an actual value.</span>'
-	        )
-	    );
-
-	    add_settings_field(
-	        'popup_info',
-	        __('Popup info','hashcash'),
-	        array( $this, 'render_textfield' ),
-	        'hashcash-setting',
-	        'hashcash-translation-section',
-	        array (
-	        	'option_name'     => $option_name,
-	        	'name'            => 'popup_info',
-	        	'value'           => esc_attr( $data['popup_info'] ),
-	        	'default'         => 'Please unlock it first.'
+	        	'name'            => 'formReady',
+	        	'value'           => esc_attr( $data['formReady'] ),
+	        	'default'         => 'You can submit form now.'
 	        )
 	    );
 
