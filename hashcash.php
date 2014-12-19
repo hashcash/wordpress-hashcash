@@ -13,7 +13,7 @@
  * Plugin URI: http://wordpress.org/plugins/hashcash/
  * Description: Hashcash.IO Integration
  * Author: Pavel A. Karoukin, haboes
- * Version: 1.0.8
+ * Version: 1.0.9
  * GitHub Plugin URI: https://github.com/hashcash/wordpress-hashcash/
 */
 
@@ -21,6 +21,7 @@
 if ( ! defined( 'WPINC' ) ) 
     die;
 
+require_once( plugin_dir_path( __FILE__ ) . 'includes/contactform7.php' );
 
 /*----------------------------------------------------------------------------*
  * Public-Facing Functionality

@@ -111,11 +111,27 @@ class WP_Hashcash {
         wp_enqueue_script( $this->plugin_slug, plugins_url( 'assets/js/wp-hashcash.js', __FILE__ ), array( 'jquery', 'hashcodejs' ), self::VERSION, true );
 
         // Localization script
-        wp_localize_script( 'hashcodejs', 'HashcashSettings', array(
-	        'key'        => get_option( 'hashcash_public_key' ),
-	        'complexity' => get_option( 'hashcash_complexity' ),
-	        'lang'       => get_option( 'hashcash_translations' )
-	    ));
+		$default_complexity = get_option( 'hashcash_complexity' );
+
+		wp_localize_script( 'hashcodejs', 'HashcashSettings', array(
+			'key'        => get_option( 'hashcash_public_key' ),
+			'complexity' => $default_complexity,
+			'lang'       => get_option( 'hashcash_translations' ),
+
+			// For now hard-code selectors to lock. In future this needs to be customizable from admin panel
+			'selectors'  => array(
+				'#loginform [type="submit"]'                => $default_complexity,
+				'#lostpasswordform [type="submit"]'         => $default_complexity,
+				'#registerform [type="submit"]'             => $default_complexity,
+				'.comment-form [type="submit"]'             => $default_complexity,
+				'#buddypress #signup_form #signup_submit'   => $default_complexity,
+				'#commentform .input_submit'                => $default_complexity,
+				'#commentform #submit'                      => $default_complexity,
+
+				// Woocommerce login button at /my-account
+				'.woocommerce form.login input[name=login]' => $default_complexity,
+			),
+		));
 
     }
 
@@ -216,7 +232,7 @@ class WP_Hashcash {
 	 *                      "no"   : not verified
 	 *                      "fast" : too fast
 	 */
-	protected function verify_hash( $hash ) {
+	public function verify_hash( $hash, $complexity = FALSE ) {
 	    // If this setting is not set, plugin is not configured. Disable verification.
 	    $key = get_option('hashcash_private_key');
 
@@ -227,6 +243,10 @@ class WP_Hashcash {
 	    if ( empty( $hash ) ) {
 	        return 'no';
 	    }
+
+		if (! $complexity) {
+			$complexity = get_option( 'hashcash_complexity' );
+		}
 
 	    $hash = preg_replace( '/[^\w-\d]/', '', $hash );
 
@@ -240,7 +260,7 @@ class WP_Hashcash {
 	        return 'no';
 	    } else if ( ! $work->totalDone ) {
 	        return 'no';
-	    } else if ( $work->totalDone < get_option( 'hashcash_complexity' ) ) {
+	    } else if ( $work->totalDone < $complexity ) {
 	        return 'fast';
 	    }
 
