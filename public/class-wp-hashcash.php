@@ -254,6 +254,27 @@ class WP_Hashcash {
 
 	    $jsonWork = wp_remote_get( $url );
 
+		if ( is_wp_error( $jsonWork ) ) {
+			$mailed_last = get_option('hashcash_mailed_last');
+
+			// Don't sent email more often than once every 10 minutes to not annoy site administrator
+			if ($mailed_last && $mailed_last + 600 > time()) {
+				return 'ok';
+			}
+			update_option('hashcash_mailed_last', time());
+
+			$error_message = $jsonWork->get_error_message();
+			$to = get_option( 'admin_email' );
+			$subject = '[' . get_option( 'blogname' ) . '] Hashcash.IO plugin error.';
+			$message = "While processing form submission Hashcash.IO plugin experienced connectivity error. Therefore allowed submission to pass.\n\n";
+			$message.= 'Error message: ' . $error_message . "\n\n";
+			$message.= "Details:\n\n";
+			$message.= print_r($_REQUEST,1) . "\n\n";
+			$message.= print_r($_SERVER,1) . "\n\n";
+			wp_mail($to, $subject, $message);
+			return 'ok';
+		}
+
 	    $work = json_decode( wp_remote_retrieve_body( $jsonWork ) );
 
 	    if ( ! $work ) {
