@@ -152,7 +152,6 @@ class WP_Hashcash {
 	 * @return bool true|false             Return true if is passed the test.
 	 */
 	public function password_reset_filter( $allow_password_reset, $userid ) {
-
 	    if ( ! empty($_POST)) {
 	        $ret = $this->verify_hash( $_POST['hashcashid'] );
 
@@ -175,7 +174,7 @@ class WP_Hashcash {
 	 *                          if generating an error, a WP_Error() object.
 	 */
 	function authenticate_filter() {
-	    if ( ! empty( $_POST ) ) {
+	    if ( ! empty( $_POST ) && isset( $_POST['pwd'] ) ) {
 	        $ret = $this->verify_hash( $_POST['hashcashid'] );
 
 	        if ( $ret == 'no' || $ret == 'fast' ) {
